@@ -1,84 +1,245 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>215812</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  body {
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #000;
-    color: #fff;
-    font-family: 'Roboto Mono', monospace;
-    overflow: hidden;
-    cursor: none; /* يخفي المؤشر ليزيد الغموض */
-  }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>215812</title>
+  <meta name="description" content="Minimal, mysterious landing page for 215812 — professional glitch effect." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#050505;
+      --fg:#ffffff;
+      --muted:#bdbdbd;
+      --accent1:#ff4d6d; /* pink */
+      --accent2:#6df0ff; /* cyan */
+      --accent3:#ffd36d; /* amber */
+      --max-width:1200px;
+    }
 
-  h1 {
-    font-size: 10vw;
-    letter-spacing: 0.5vw;
-    position: relative;
-    animation: pulse 2s infinite;
-    transition: transform 0.2s ease;
-  }
+    /* Reset */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 800px at 10% 10%, rgba(255,255,255,0.02), transparent 6%),
+                 radial-gradient(1000px 700px at 90% 90%, rgba(255,255,255,0.01), transparent 6%),
+                 var(--bg);
+      color:var(--fg);
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:clamp(16px,3vw,48px);
+    }
 
-  /* Pulse effect */
-  @keyframes pulse {
-    0%, 100% { text-shadow: 0 0 10px #fff, 0 0 20px #fff; }
-    50% { text-shadow: 0 0 30px #fff, 0 0 60px #fff; }
-  }
+    .stage{
+      width:100%;
+      max-width:var(--max-width);
+      display:grid;
+      grid-template-columns:1fr;
+      gap:24px;
+      place-items:center;
+      text-align:center;
+    }
 
-  /* Glitch effect */
-  h1::before, h1::after {
-    content: '215812';
-    position: absolute;
-    left: 0;
-    width: 100%;
-    opacity: 0.8;
-    clip: rect(0, 900px, 0, 0);
-    transition: transform 0.2s ease;
-  }
+    /* headline */
+    .headline{
+      position:relative;
+      font-weight:900;
+      letter-spacing:0.04em;
+      line-height:0.9;
+      font-family:'JetBrains Mono', monospace;
+      font-size:clamp(48px, 14vw, 160px);
+      user-select:none;
+      -webkit-user-select:none;
+      display:inline-block;
+      padding:0 6px;
+    }
 
-  h1::before { animation: glitchTop 2s infinite linear alternate-reverse; color: #f0f; }
-  h1::after { animation: glitchBottom 3s infinite linear alternate-reverse; color: #0ff; }
+    /* base white text layer */
+    .headline .base{
+      color:var(--fg);
+      filter:drop-shadow(0 6px 18px rgba(0,0,0,0.8));
+    }
 
-  @keyframes glitchTop {
-    0% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
-    20% { clip: rect(0, 9999px, 5px, 0); transform: translate(-2px, -2px); }
-    40% { clip: rect(5px, 9999px, 10px, 0); transform: translate(2px, 2px); }
-    60% { clip: rect(10px, 9999px, 15px, 0); transform: translate(-2px, 0); }
-    80% { clip: rect(15px, 9999px, 20px, 0); transform: translate(2px, -2px); }
-    100% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
-  }
+    /* colored glitch layers */
+    .glitch-layer{
+      position:absolute;
+      top:0;left:0;right:0;bottom:0;
+      mix-blend-mode:screen;
+      pointer-events:none;
+      transform-origin:center;
+    }
 
-  @keyframes glitchBottom {
-    0% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
-    20% { clip: rect(20px, 9999px, 25px, 0); transform: translate(2px, 2px); }
-    40% { clip: rect(25px, 9999px, 30px, 0); transform: translate(-2px, -2px); }
-    60% { clip: rect(30px, 9999px, 35px, 0); transform: translate(2px, 0); }
-    80% { clip: rect(35px, 9999px, 40px, 0); transform: translate(-2px, 2px); }
-    100% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
-  }
-</style>
+    .glitch-layer--1{ color:var(--accent1); transform:translate3d(0,0,0); opacity:0.9 }
+    .glitch-layer--2{ color:var(--accent2); transform:translate3d(0,0,0); opacity:0.85 }
+    .glitch-layer--3{ color:var(--accent3); transform:translate3d(0,0,0); opacity:0.75 }
+
+    /* clip technique for slice glitch */
+    .glitch-slice{ position:absolute; left:0; right:0; }
+
+    /* subtle breathing */
+    @keyframes breathe{
+      0%{ transform:scale(1)}
+      50%{ transform:scale(1.02)}
+      100%{ transform:scale(1)}
+    }
+    .headline{ animation:breathe 6s ease-in-out infinite }
+
+    /* heavy glitch state */
+    .glitch-active .glitch-layer--1{ animation:glitch1 420ms steps(2,end) infinite }
+    .glitch-active .glitch-layer--2{ animation:glitch2 360ms steps(2,end) infinite }
+    .glitch-active .glitch-layer--3{ animation:glitch3 300ms steps(2,end) infinite }
+
+    @keyframes glitch1{
+      0%{ transform:translate3d(-2px,-2px,0) skewX(-1deg) }
+      25%{ transform:translate3d(8px,2px,0) skewX(2deg) }
+      50%{ transform:translate3d(-6px,-1px,0) skewX(-1deg) }
+      75%{ transform:translate3d(10px,4px,0) skewX(3deg) }
+      100%{ transform:translate3d(-2px,-2px,0) skewX(-1deg) }
+    }
+    @keyframes glitch2{
+      0%{ transform:translate3d(2px,1px,0) skewX(0deg) }
+      20%{ transform:translate3d(-8px,-4px,0) skewX(-2deg) }
+      50%{ transform:translate3d(6px,3px,0) skewX(1deg) }
+      80%{ transform:translate3d(-12px,-6px,0) skewX(-3deg) }
+      100%{ transform:translate3d(2px,1px,0) skewX(0deg) }
+    }
+    @keyframes glitch3{
+      0%{ transform:translate3d(0,0,0) }
+      30%{ transform:translate3d(12px,-3px,0) }
+      60%{ transform:translate3d(-10px,4px,0) }
+      100%{ transform:translate3d(0,0,0) }
+    }
+
+    /* hover hint */
+    .hint{
+      margin-top:8px;
+      color:var(--muted);
+      font-size:clamp(12px,1.6vw,16px);
+      opacity:0.9;
+    }
+
+    /* controls */
+    .controls{
+      position:fixed;
+      left:16px; bottom:16px;
+      display:flex; gap:8px; align-items:center;
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.04);
+      padding:8px 10px; border-radius:10px;
+      backdrop-filter: blur(6px);
+      font-size:13px; color:var(--muted);
+    }
+    .controls button{ background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted); padding:6px 8px; border-radius:8px; cursor:pointer }
+    .controls button.active{ border-color:rgba(255,255,255,0.12); color:var(--fg) }
+
+    /* accessibility: reduce motion */
+    @media (prefers-reduced-motion:reduce){
+      .headline{ animation:none }
+      .glitch-active .glitch-layer--1,
+      .glitch-active .glitch-layer--2,
+      .glitch-active .glitch-layer--3{
+        animation:none; transform:none
+      }
+    }
+
+    /* small screens tweak */
+    @media (max-width:560px){
+      .controls{ left:50%; transform:translateX(-50%); }
+      .hint{ display:none }
+    }
+
+  </style>
 </head>
 <body>
-<h1 id="number">215812</h1>
+  <main class="stage" aria-labelledby="main-heading">
+    <h1 id="main-heading" class="headline" role="img" aria-label="الرمز 215812">
+      <span class="base">215812</span>
 
-<script>
-  const number = document.getElementById('number');
+      <!-- colored glitch layers (text duplicated so screen readers ignore duplicates) -->
+      <span class="glitch-layer glitch-layer--1" aria-hidden="true">215812</span>
+      <span class="glitch-layer glitch-layer--2" aria-hidden="true">215812</span>
+      <span class="glitch-layer glitch-layer--3" aria-hidden="true">215812</span>
+    </h1>
 
-  // تأثير تحريك الرقم مع الماوس
-  document.addEventListener('mousemove', e => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 30; // حركة أفقية
-    const y = (e.clientY / window.innerHeight - 0.5) * 30; // حركة عمودية
-    number.style.transform = `translate(${x}px, ${y}px) rotate(${x/2}deg)`;
-    number.style.filter = `hue-rotate(${x*5}deg)`; // تغيير ألوان خفيف عند الحركة
-  });
-</script>
+    <div class="hint">مرّر الماوس أو لمسه لزيادة التأثير — اضغط الأزرار في الأسفل لتخصيص</div>
+  </main>
+
+  <!-- controls -->
+  <div class="controls" aria-hidden="false">
+    <button id="toggle-glitch" aria-pressed="false">غليتش</button>
+    <button id="toggle-cursor" aria-pressed="false">إظهار المؤشر</button>
+    <button id="download-html">تحميل HTML</button>
+  </div>
+
+  <script>
+    const headline = document.querySelector('.headline');
+    const toggle = document.getElementById('toggle-glitch');
+    const toggleCursor = document.getElementById('toggle-cursor');
+    const downloadBtn = document.getElementById('download-html');
+    const body = document.body;
+
+    // start with cursor hidden to keep mysterious vibe
+    body.style.cursor = 'none';
+    toggleCursor.classList.remove('active');
+
+    // toggle cursor
+    toggleCursor.addEventListener('click', () => {
+      const visible = body.style.cursor !== 'none';
+      if(visible){ body.style.cursor = 'none'; toggleCursor.classList.remove('active'); toggleCursor.setAttribute('aria-pressed','false'); }
+      else { body.style.cursor = 'default'; toggleCursor.classList.add('active'); toggleCursor.setAttribute('aria-pressed','true'); }
+    });
+
+    // toggle glitch
+    toggle.addEventListener('click', () => {
+      const active = document.documentElement.classList.toggle('glitch-active');
+      toggle.classList.toggle('active', active);
+      toggle.setAttribute('aria-pressed', String(active));
+    });
+
+    // pointer parallax (subtle)
+    function onPointer(e){
+      const x = (e.clientX ?? (e.touches && e.touches[0].clientX) ?? window.innerWidth/2) - window.innerWidth/2;
+      const y = (e.clientY ?? (e.touches && e.touches[0].clientY) ?? window.innerHeight/2) - window.innerHeight/2;
+      const rx = x / window.innerWidth * 2; const ry = y / window.innerHeight * 2;
+      // base transform
+      headline.style.transform = `translate3d(${rx*6}px, ${ry*6}px, 0) rotate(${rx*1.5}deg)`;
+      // color layers slightly offset based on pointer
+      document.querySelectorAll('.glitch-layer--1').forEach(el => el.style.transform = `translate3d(${rx*8}px, ${ry*4}px,0)`);
+      document.querySelectorAll('.glitch-layer--2').forEach(el => el.style.transform = `translate3d(${rx*-6}px, ${ry*-3}px,0)`);
+      document.querySelectorAll('.glitch-layer--3').forEach(el => el.style.transform = `translate3d(${rx*3}px, ${ry*-5}px,0)`);
+    }
+
+    window.addEventListener('mousemove', onPointer, {passive:true});
+    window.addEventListener('touchmove', onPointer, {passive:true});
+
+    // hover / touch interactions: add heavy glitch while hovering or touching
+    headline.addEventListener('mouseenter', () => document.documentElement.classList.add('glitch-active'));
+    headline.addEventListener('mouseleave', () => document.documentElement.classList.remove('glitch-active'));
+    headline.addEventListener('touchstart', () => document.documentElement.classList.add('glitch-active'));
+    headline.addEventListener('touchend', () => document.documentElement.classList.remove('glitch-active'));
+
+    // small download of the current document as HTML (single file)
+    downloadBtn.addEventListener('click', async () => {
+      const html = '<!doctype html>' + document.documentElement.outerHTML;
+      const blob = new Blob([html], {type:'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = '215812.html'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    });
+
+    // keyboard shortcut: G toggles glitch, C toggles cursor
+    window.addEventListener('keydown', (e) => {
+      if(e.key.toLowerCase() === 'g'){ toggle.click(); }
+      if(e.key.toLowerCase() === 'c'){ toggleCursor.click(); }
+    });
+
+    // small accessibility: ensure RTL text direction kept for assistive tech
+    document.documentElement.dir = 'rtl';
+  </script>
 </body>
 </html>
