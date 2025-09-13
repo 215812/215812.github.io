@@ -16,17 +16,24 @@
     color: #fff;
     font-family: 'Roboto Mono', monospace;
     overflow: hidden;
-    cursor: none;
+    cursor: none; /* يخفي المؤشر ليزيد الغموض */
   }
 
   h1 {
     font-size: 10vw;
     letter-spacing: 0.5vw;
     position: relative;
+    animation: pulse 2s infinite;
     transition: transform 0.2s ease;
   }
 
-  /* Glitch layers */
+  /* Pulse effect */
+  @keyframes pulse {
+    0%, 100% { text-shadow: 0 0 10px #fff, 0 0 20px #fff; }
+    50% { text-shadow: 0 0 30px #fff, 0 0 60px #fff; }
+  }
+
+  /* Glitch effect */
   h1::before, h1::after {
     content: '215812';
     position: absolute;
@@ -37,32 +44,24 @@
     transition: transform 0.2s ease;
   }
 
-  h1::before { color: #f0f; }
-  h1::after { color: #0ff; }
-
-  /* Glitch animation when active */
-  .glitch::before {
-    animation: glitchTop 0.5s infinite linear alternate-reverse;
-  }
-  .glitch::after {
-    animation: glitchBottom 0.5s infinite linear alternate-reverse;
-  }
+  h1::before { animation: glitchTop 2s infinite linear alternate-reverse; color: #f0f; }
+  h1::after { animation: glitchBottom 3s infinite linear alternate-reverse; color: #0ff; }
 
   @keyframes glitchTop {
     0% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
-    20% { clip: rect(0, 9999px, 5px, 0); transform: translate(-5px, -5px); }
-    40% { clip: rect(5px, 9999px, 10px, 0); transform: translate(5px, 5px); }
-    60% { clip: rect(10px, 9999px, 15px, 0); transform: translate(-5px, 0); }
-    80% { clip: rect(15px, 9999px, 20px, 0); transform: translate(5px, -5px); }
+    20% { clip: rect(0, 9999px, 5px, 0); transform: translate(-2px, -2px); }
+    40% { clip: rect(5px, 9999px, 10px, 0); transform: translate(2px, 2px); }
+    60% { clip: rect(10px, 9999px, 15px, 0); transform: translate(-2px, 0); }
+    80% { clip: rect(15px, 9999px, 20px, 0); transform: translate(2px, -2px); }
     100% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
   }
 
   @keyframes glitchBottom {
     0% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
-    20% { clip: rect(20px, 9999px, 25px, 0); transform: translate(5px, 5px); }
-    40% { clip: rect(25px, 9999px, 30px, 0); transform: translate(-5px, -5px); }
-    60% { clip: rect(30px, 9999px, 35px, 0); transform: translate(5px, 0); }
-    80% { clip: rect(35px, 9999px, 40px, 0); transform: translate(-5px, 5px); }
+    20% { clip: rect(20px, 9999px, 25px, 0); transform: translate(2px, 2px); }
+    40% { clip: rect(25px, 9999px, 30px, 0); transform: translate(-2px, -2px); }
+    60% { clip: rect(30px, 9999px, 35px, 0); transform: translate(2px, 0); }
+    80% { clip: rect(35px, 9999px, 40px, 0); transform: translate(-2px, 2px); }
     100% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
   }
 </style>
@@ -73,19 +72,12 @@
 <script>
   const number = document.getElementById('number');
 
+  // تأثير تحريك الرقم مع الماوس
   document.addEventListener('mousemove', e => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 30;
-    const y = (e.clientY / window.innerHeight - 0.5) * 30;
+    const x = (e.clientX / window.innerWidth - 0.5) * 30; // حركة أفقية
+    const y = (e.clientY / window.innerHeight - 0.5) * 30; // حركة عمودية
     number.style.transform = `translate(${x}px, ${y}px) rotate(${x/2}deg)`;
-    number.style.filter = `hue-rotate(${x*5}deg)`;
-  });
-
-  number.addEventListener('mouseenter', () => {
-    number.classList.add('glitch');
-  });
-
-  number.addEventListener('mouseleave', () => {
-    number.classList.remove('glitch');
+    number.style.filter = `hue-rotate(${x*5}deg)`; // تغيير ألوان خفيف عند الحركة
   });
 </script>
 </body>
