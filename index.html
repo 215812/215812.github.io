@@ -1,60 +1,92 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moha </title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #121212;
-            color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
-        h1 {
-            font-size: 2.2em;
-            margin-bottom: 0.5em;
-        }
-        p {
-            font-size: 1.2em;
-            margin-bottom: 1.5em;
-            max-width: 600px;
-        }
-        .social-icons {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 1.5em;
-        }
-        .social-icons a {
-            color: #fff;
-            font-size: 1.8em;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        .social-icons a:hover {
-            color: #1e90ff;
-        }
-        .email {
-            font-size: 1em;
-            color: #ccc;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>215812</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    color: #fff;
+    font-family: 'Roboto Mono', monospace;
+    overflow: hidden;
+    cursor: none;
+  }
+
+  h1 {
+    font-size: 10vw;
+    letter-spacing: 0.5vw;
+    position: relative;
+    transition: transform 0.2s ease;
+  }
+
+  /* Glitch layers */
+  h1::before, h1::after {
+    content: '215812';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    opacity: 0.8;
+    clip: rect(0, 900px, 0, 0);
+    transition: transform 0.2s ease;
+  }
+
+  h1::before { color: #f0f; }
+  h1::after { color: #0ff; }
+
+  /* Glitch animation when active */
+  .glitch::before {
+    animation: glitchTop 0.5s infinite linear alternate-reverse;
+  }
+  .glitch::after {
+    animation: glitchBottom 0.5s infinite linear alternate-reverse;
+  }
+
+  @keyframes glitchTop {
+    0% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
+    20% { clip: rect(0, 9999px, 5px, 0); transform: translate(-5px, -5px); }
+    40% { clip: rect(5px, 9999px, 10px, 0); transform: translate(5px, 5px); }
+    60% { clip: rect(10px, 9999px, 15px, 0); transform: translate(-5px, 0); }
+    80% { clip: rect(15px, 9999px, 20px, 0); transform: translate(5px, -5px); }
+    100% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
+  }
+
+  @keyframes glitchBottom {
+    0% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
+    20% { clip: rect(20px, 9999px, 25px, 0); transform: translate(5px, 5px); }
+    40% { clip: rect(25px, 9999px, 30px, 0); transform: translate(-5px, -5px); }
+    60% { clip: rect(30px, 9999px, 35px, 0); transform: translate(5px, 0); }
+    80% { clip: rect(35px, 9999px, 40px, 0); transform: translate(-5px, 5px); }
+    100% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
+  }
+</style>
 </head>
 <body>
-    <h1>Hello! I'm Moh</h1>
-    <div class="social-icons">
-        <a href="https://instagram.com/215812" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://x.com//215812" target="_blank" title="x"><i class="fab fa-x"></i></a>
-    </div>
-    <div class="email">Email: 215812@duck.com </div>
+<h1 id="number">215812</h1>
+
+<script>
+  const number = document.getElementById('number');
+
+  document.addEventListener('mousemove', e => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 30;
+    const y = (e.clientY / window.innerHeight - 0.5) * 30;
+    number.style.transform = `translate(${x}px, ${y}px) rotate(${x/2}deg)`;
+    number.style.filter = `hue-rotate(${x*5}deg)`;
+  });
+
+  number.addEventListener('mouseenter', () => {
+    number.classList.add('glitch');
+  });
+
+  number.addEventListener('mouseleave', () => {
+    number.classList.remove('glitch');
+  });
+</script>
 </body>
 </html>
